@@ -1,22 +1,37 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Register.css';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
+import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 
 const Register = () => {
+    const [
+        createUserWithEmailAndPassword,
+        user
+    ] = useCreateUserWithEmailAndPassword(auth);
 
     const navigate = useNavigate();
     const navigateLogin = event => {
-        navigate("/register");
+        navigate("/login");
     }
+
+    if (user) {
+        navigate('/home');
+    }
+
+
     const handleRegister = event => {
         event.preventDefault();
         const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
+
+        createUserWithEmailAndPassword(email, password);
     }
     return (
         <div className='register-form'>
-            <h2 className='text-center'>Please Register</h2>
+            <h2 className='text-center text-primary'>Please Register</h2>
 
             <form onSubmit={handleRegister}>
                 <input type="text" name="name" id="" placeholder='Your Name' />
@@ -25,9 +40,11 @@ const Register = () => {
 
                 <input type="password" name="password" id="" placeholder='Password' required />
 
-                <input type="submit" value="Register" />
+                <input className='bg-primary text-white' type="submit" value="Register" />
             </form>
             <p className='text-center'>Already have an account? <Link to="/login" className='text-danger pe-auto text-decoration-none' onClick={navigateLogin}>Please Login</Link></p>
+
+            <SocialLogin></SocialLogin>
 
         </div>
     );
