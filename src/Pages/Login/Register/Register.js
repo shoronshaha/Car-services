@@ -44,7 +44,9 @@ const Register = () => {
             </form>
             <p className='text-center'>Already have an account? <Link to="/login" className='text-danger pe-auto text-decoration-none' onClick={navigateLogin}>Please Login</Link></p>
 
-            <SocialLogin></SocialLogin>
+            <div>
+                <SocialLogin></SocialLogin>
+            </div>
 
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -13,14 +13,22 @@ const Login = () => {
     const location = useLocation();
 
     let from = location.state?.from?.pathname || "/";
+    let errorElement;
     const [
         signInWithEmailAndPassword,
-        user
+        user,
+        loading,
+        error,
     ] = useSignInWithEmailAndPassword(auth);
-
 
     if (user) {
         navigate(from, { replace: true });
+    }
+
+    if (error) {
+        errorElement = <div>
+            <p className='text-danger'>Error: {error?.message}</p>
+        </div>
     }
 
     const handleSubmit = event => {
@@ -55,9 +63,13 @@ const Login = () => {
                     Submit
                 </Button>
             </Form>
+            {errorElement}
 
             <p>New to  Genius Car? <Link to="/register" className='text-danger pe-auto text-decoration-none' onClick={navigateRegister}>Please Register</Link></p>
-            <SocialLogin></SocialLogin>
+
+            <div>
+                <SocialLogin></SocialLogin>
+            </div>
         </div>
     );
 };
