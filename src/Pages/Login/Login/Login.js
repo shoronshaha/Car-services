@@ -7,9 +7,12 @@ import Loading from '../../Shared/Loading/Loading';
 import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageTitle from '../../Shared/PageTitle/PageTitle';
 
 
 const Login = () => {
+    <PageTitle title="Home"></PageTitle>
+
     const emailRef = useRef("");
     const passwordRef = useRef("")
     const navigate = useNavigate();
