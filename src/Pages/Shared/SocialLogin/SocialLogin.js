@@ -4,7 +4,7 @@ import GitHubIcon from '../../../Images/icons8-github-48.png'
 import FacebookIcon from '../../../Images/icons8-facebook-48.png'
 import { useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 
 const SocialLogin = () => {
@@ -12,8 +12,15 @@ const SocialLogin = () => {
     const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    let from = location.state?.from?.pathname || "/";
 
     let errorElement;
+
+    if (user || user1) {
+        navigate(from, { replace: true });
+    }
 
 
     if (loading || loading1) {
@@ -26,12 +33,8 @@ const SocialLogin = () => {
         errorElement = <div>
             <p className='text-danger'>Error: {error?.message} {error1?.message}</p>
         </div>
-
     }
 
-    if (user || user1) {
-        navigate('/home');
-    }
 
     return (
         <div>
@@ -42,11 +45,11 @@ const SocialLogin = () => {
             </div>
             {errorElement}
             <div onClick={() => signInWithGoogle()} className='btn btn-dark w-100 mb-2 p-2'>
-                <img className='p-1' style={{ width: '30px' }} src={GoogleIcon} />  Google Sign In</div>
+                <img className='p-1' style={{ width: '30px' }} src={GoogleIcon} alt='' />  Google Sign In</div>
             <div onClick={() => signInWithGithub()} className='btn btn-success w-100 mb-2 p-2'>
-                <img className='p-1' style={{ width: '30px' }} src={GitHubIcon} />  GitHub Sign In </div>
+                <img className='p-1' style={{ width: '30px' }} src={GitHubIcon} alt='' />  GitHub Sign In </div>
             <div className='btn btn-info w-100 mb-2 rounded p-2'>
-                <img className='p-1' style={{ width: '30px' }} src={FacebookIcon} />Facebook Sign In  </div>
+                <img className='p-1' style={{ width: '30px' }} src={FacebookIcon} alt='' />Facebook Sign In  </div>
         </div>
     );
 };
