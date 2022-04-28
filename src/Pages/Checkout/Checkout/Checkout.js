@@ -34,7 +34,7 @@ const Checkout = () => {
             service: service.name,
             serviceId: serviceId,
             address: event.target.address.value,
-            phone: event.target.phone.values
+            phone: event.target.phone.value
         }
         axios.post('http://localhost:5000/order', order)
             .then(response => {
